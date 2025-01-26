@@ -1,13 +1,6 @@
 package com.example.RealEstateAgency.Controller;
 
-import com.example.RealEstateAgency.DTO.AuthResponseDTO;
-import com.example.RealEstateAgency.DTO.LoginDTO;
-import com.example.RealEstateAgency.DTO.RegisterDTO;
 import com.example.RealEstateAgency.Entity.AuthenticationRequest;
-import com.example.RealEstateAgency.Entity.UserEntity;
-import com.example.RealEstateAgency.Repository.RoleRepository;
-import com.example.RealEstateAgency.Repository.UserEntityRepository;
-import com.example.RealEstateAgency.Repository.UserRegistrationRepository;
 import com.example.RealEstateAgency.Security.AuthenticationResponse;
 import com.example.RealEstateAgency.Security.CustomUserDetailsService;
 import com.example.RealEstateAgency.Security.JWTUtil;
@@ -16,10 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +26,6 @@ public class AuthController {
     private CustomUserDetailsService userDetailsService;
     @Autowired
     private JWTUtil jwtUtil;
-
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest authenticationRequest) {

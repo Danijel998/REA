@@ -30,7 +30,6 @@ public class RealEstateAgencyController {
 
     //READ
     @GetMapping("/agencyList")
-    @PreAuthorize("ADMIN")
     public ResponseEntity<List<RealEstateAgency>> getAllRealEstateAgency(){
         List<RealEstateAgency> realEstates = realEstateAgencyService.getRealEstateAgency();
         return new ResponseEntity<>(realEstates, HttpStatus.FOUND);

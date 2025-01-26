@@ -8,6 +8,17 @@ import lombok.RequiredArgsConstructor;
 
 public enum UserRole {
 
-    USER,
-    ADMIN;
+    USER("USER"),
+    ADMIN("ADMIN"),
+    SUPER_ADMIN("SUPER_ADMIN");
+
+    private String roleName;
+
+    private UserRole(String roleName){
+        this.roleName = roleName;
+    }
+
+    private  String getName(){
+        return this.roleName;
+    }
 }

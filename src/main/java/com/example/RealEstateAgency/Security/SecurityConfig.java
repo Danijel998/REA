@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -29,22 +31,26 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
+       return http
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests((authorize) -> authorize
+                .authorizeHttpRequests((request) -> request
                         .requestMatchers("/api/auth/authenticate").permitAll()
-                        .requestMatchers("/api/user/**",
-                                "/api/api/realEstateAgency/agencyList"
+                        .requestMatchers("/api/user/**"
                         ).hasRole("USER")
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/superadmin/**").hasRole("SUPERADMIN")
-                        .anyRequest().authenticated())
+                        .requestMatchers("/api/admin/**",
+                                "/api/user/agentList").hasRole("ADMIN")
+                        .requestMatchers("/api/realEstateAgency/**",
+                                "/api/user/**",
+                                "/api/admin/**",
+                                "/api/super_admin/**").hasRole("SUPER_ADMIN").anyRequest().authenticated())
+                .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin(withDefaults())
-                .httpBasic(withDefaults());
-        return http.build();
+                //.httpBasic(withDefaults());
+                .build();
+      //  return http.build();
     }
 
     @Bean
@@ -53,11 +59,11 @@ public class SecurityConfig {
     }
 
     @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider() {
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(customUserDetailsService);
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        return daoAuthenticationProvider;
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(customUserDetailsService);
+        provider.setPasswordEncoder(passwordEncoder());
+        return provider;
     }
 
     @Bean
