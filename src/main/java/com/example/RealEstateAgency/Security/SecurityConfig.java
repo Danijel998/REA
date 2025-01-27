@@ -31,7 +31,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-       return http
+        http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((request) -> request
                         .requestMatchers("/api/auth/authenticate").permitAll()
@@ -43,14 +43,12 @@ public class SecurityConfig {
                                 "/api/user/**",
                                 "/api/admin/**",
                                 "/api/super_admin/**").hasRole("SUPER_ADMIN").anyRequest().authenticated())
-                .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin(withDefaults())
-                //.httpBasic(withDefaults());
-                .build();
-      //  return http.build();
+                .httpBasic(withDefaults());
+        return http.build();
     }
 
     @Bean
