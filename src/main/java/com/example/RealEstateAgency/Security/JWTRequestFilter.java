@@ -34,25 +34,28 @@ public class JWTRequestFilter extends OncePerRequestFilter {
 
         String username = null;
         String jwt = null;
-        if(authHeader != null && authHeader.startsWith("Bearer ")){
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
             jwt = authHeader.substring("Bearer ".length());
             logger.info("Extracted JWT: " + jwt);  // Loguj izvučeni JWT token
-
-            username = jwtUtil.extractUsername(jwt);
-        }
-        if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
-            try{
-             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            if(jwtUtil.validateToken(jwt, userDetails.getUsername())) {
-                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-                }
-            }catch (UsernameNotFoundException e){
-                logger.error("User not found" +username);
+            try {
+                username = jwtUtil.extractUsername(jwt);
+            } catch (Exception e) {
+                logger.error("Error extracting username from token: " + e.getMessage());
             }
         }
-        filterChain.doFilter(request,response);
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            try {
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                if (jwtUtil.validateToken(jwt, userDetails)) {
+                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+                }
+            } catch (UsernameNotFoundException e) {
+                logger.error("User not found" + username);
+            }
+        }
+        filterChain.doFilter(request, response);
     }
 }

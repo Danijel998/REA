@@ -31,14 +31,14 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-       return http
+        http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((request) -> request
                         .requestMatchers("/api/auth/authenticate").permitAll()
                         .requestMatchers("/api/user/**"
-                        ).hasRole("USER")
+                        ).hasAnyRole("USER", "ADMIN", "SUPER_ADMIN")
                         .requestMatchers("/api/admin/**",
-                                "/api/user/agentList").hasRole("ADMIN")
+                                "/api/user/agentList").hasAnyRole("ADMIN", "SUPER_ADMIN")
                         .requestMatchers("/api/realEstateAgency/**",
                                 "/api/user/**",
                                 "/api/admin/**",
@@ -46,11 +46,10 @@ public class SecurityConfig {
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
-                .formLogin(withDefaults())
-                //.httpBasic(withDefaults());
-                .build();
-      //  return http.build();
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+                .formLogin(withDefaults());
+
+        return http.build();
     }
 
     @Bean
