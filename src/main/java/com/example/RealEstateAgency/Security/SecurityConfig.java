@@ -35,13 +35,11 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((request) -> request
                         .requestMatchers("/api/auth/authenticate").permitAll()
-                        .requestMatchers("/api/user/**"
+                        .requestMatchers("/api/user/agentList"
                         ).hasAnyRole("USER", "ADMIN", "SUPER_ADMIN")
                         .requestMatchers("/api/admin/**",
-                                "/api/user/agentList").hasAnyRole("ADMIN", "SUPER_ADMIN")
+                                "/api/user/**").hasAnyRole("ADMIN", "SUPER_ADMIN")
                         .requestMatchers("/api/realEstateAgency/**",
-                                "/api/user/**",
-                                "/api/admin/**",
                                 "/api/super_admin/**").hasRole("SUPER_ADMIN").anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session
