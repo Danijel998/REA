@@ -10,22 +10,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 function NavBar({ setIsAuthenticated }) {
-  const [userData, setUserData] = useState("");
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:8080/api/user/agentList")
-      .then((response) => {
-        setUserData(response.data);
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log("Error loading user data " + error);
-      });
-  }, [userData]);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
