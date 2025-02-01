@@ -1,13 +1,50 @@
 import "../Styles/NavBar.css";
 
 import { NavLink } from "react-router-dom";
+import * as React from "react";
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
-function NavBar() {
+function NavBar({ setIsAuthenticated }) {
+  const [userData, setUserData] = useState("");
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/user/agentList")
+      .then((response) => {
+        setUserData(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log("Error loading user data " + error);
+      });
+  }, [userData]);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleLogOut = () => {
+    setIsAuthenticated(false);
+    navigate("/login");
+    localStorage.clear();
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <nav className="navBar">
       <ul className="navBar-list">
         <li>
-          <NavLink className="navBar-list-element" to="/">
+          <NavLink className="navBar-list-element" to="/homePage">
             HOME PAGE
           </NavLink>
         </li>
@@ -31,6 +68,32 @@ function NavBar() {
           <NavLink className="navBar-list-element" to="/agentsList">
             AGENT LIST
           </NavLink>
+        </li>
+      </ul>
+      <ul className="navBar-user-element">
+        <li>
+          <Button
+            id="basic-button"
+            aria-controls={open ? "basic-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? "true" : undefined}
+            onClick={handleClick}
+          >
+            veselinovicd
+          </Button>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
+            }}
+          >
+            <MenuItem onClick={handleClose}>Profile</MenuItem>
+            <MenuItem onClick={handleClose}>My account</MenuItem>
+            <MenuItem onClick={handleLogOut}>Logout</MenuItem>
+          </Menu>
         </li>
       </ul>
     </nav>

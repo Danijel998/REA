@@ -11,8 +11,15 @@
   align-items: center;
   gap: 20px;
   list-style-type: none;
+  width: 80%;
 }
 
 .navBar-list-element {
   color: white;
+}
+
+.navBar-user-element {
+  display: flex;
+  justify-content: end;
+  align-items: end;
 }
