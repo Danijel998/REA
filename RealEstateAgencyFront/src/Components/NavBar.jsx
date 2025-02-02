@@ -6,8 +6,6 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { useEffect, useState } from "react";
 
 function NavBar({ setIsAuthenticated }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -21,6 +19,10 @@ function NavBar({ setIsAuthenticated }) {
     setIsAuthenticated(false);
     navigate("/login");
     localStorage.clear();
+  };
+
+  const handleUserDetails = () => {
+    navigate("/userDetails");
   };
 
   const handleClose = () => {
@@ -77,7 +79,7 @@ function NavBar({ setIsAuthenticated }) {
               "aria-labelledby": "basic-button",
             }}
           >
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
+            <MenuItem onClick={handleUserDetails}>Profile</MenuItem>
             <MenuItem onClick={handleClose}>My account</MenuItem>
             <MenuItem onClick={handleLogOut}>Logout</MenuItem>
           </Menu>

@@ -21,9 +21,14 @@ public class UserService {
         return userRegistrationRepository.save(userRegistration);
     }
 
-    //READ
-    public List<UserRegistration> getUser(){
+    //READ ALL USERS
+    public List<UserRegistration> getAllUsers(){
         return (List<UserRegistration>) userRegistrationRepository.findAll();
+    }
+
+    //READ USER
+    public UserRegistration getUser(String username){
+        return userRegistrationRepository.findByUsername(username);
     }
 
     //UPDATE

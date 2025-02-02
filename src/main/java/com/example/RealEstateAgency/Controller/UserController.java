@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,14 +29,21 @@ public class UserController {
     public ResponseEntity<UserRegistration> createUser(@RequestBody UserRegistration userRegistration){
         userRegistration.setPassword(passwordEncoder.encode(userRegistration.getPassword()));
         UserRegistration savedUser = userService.createUser(userRegistration);
-        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+        return new ResponseEntity<>(savedUser, HttpStatus.OK);
     }
 
-    //READ
+    //READ ALL USERS
     @GetMapping("/agentList")
-    public ResponseEntity<List<UserRegistration>> getUser(){
-        List<UserRegistration> getAllUsers = userService.getUser();
-        return new ResponseEntity<>(getAllUsers, HttpStatus.FOUND);
+    public ResponseEntity<List<UserRegistration>> getAllUsers(){
+        List<UserRegistration> getAllUsers = userService.getAllUsers();
+        return new ResponseEntity<>(getAllUsers, HttpStatus.OK);
+    }
+
+    //READ USER
+    @GetMapping("/agent/{username}")
+    public ResponseEntity<UserRegistration> getUser(@PathVariable String username){
+        UserRegistration getUser = userService.getUser(username);
+        return new ResponseEntity<>(getUser, HttpStatus.OK);
     }
 
     //UPDATE
