@@ -6,8 +6,6 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { useEffect, useState } from "react";
 
 function NavBar({ setIsAuthenticated }) {
   const [anchorEl, setAnchorEl] = React.useState(null);

@@ -18,6 +18,11 @@ public class UserService {
 
     //CREATE
     public UserRegistration createUser(UserRegistration userRegistration){
+        String username = userRegistration.getUsername();
+        if(userRegistrationRepository.findByUsername(username) != null){
+             throw new RuntimeException("Username already exist");
+
+        }
         return userRegistrationRepository.save(userRegistration);
     }
 
