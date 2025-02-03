@@ -22,7 +22,7 @@ function NewAgent() {
   const [agencyData, setAgencyData] = useState([]);
 
   useEffect(() => {
-    const token = localStorage.getItem("user-token");
+    const token = localStorage.getItem("token");
     axios
       .get("http://localhost:8080/api/realEstateAgency/agencyList", {
         headers: {
@@ -39,7 +39,7 @@ function NewAgent() {
   }, []);
 
   function addUser() {
-    const token = localStorage.getItem("user-token");
+    const token = localStorage.getItem("token");
     const agencyVAT = agency.agencyIdentificationNumber;
 
     const body = {
