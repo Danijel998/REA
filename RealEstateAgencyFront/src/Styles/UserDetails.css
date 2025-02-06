@@ -1,0 +1,42 @@
+.uderDetails-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+.userDetails-form {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  height: 500px;
+  width: 1400px;
+  border-radius: 25px;
+}
+
+.userDetails-title {
+  margin: 20px;
+  font-style: italic;
+}
+
+.userDetails-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin: 20px;
+  height: 400px;
+  max-width: 1400px;
+}
+
+.userDetails-data {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  height: 100px;
+  width: 300px;
+}
+
+.label-name {
+  font-style: italic;
+}

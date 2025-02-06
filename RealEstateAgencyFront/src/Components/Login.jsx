@@ -10,16 +10,18 @@ import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../assets/Logo.png";
 import axios from "axios";
+import usernameContext from "./UsernameProvider";
 
 function Login({ setIsAuthenticated }) {
   const [showPassword, setShowPassword] = useState(false);
-  const [username, setUsername] = useState("");
+  // const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { username, setUsername } = useContext(usernameContext);
 
   function loginUser(e) {
     e.preventDefault();
@@ -38,17 +40,17 @@ function Login({ setIsAuthenticated }) {
       .then((response) => {
         const token = response.data.jwt;
         if (token) {
-          localStorage.setItem("user-token", token);
+          localStorage.setItem("token", token);
           setIsAuthenticated(true);
           navigate("/homePage");
         } else {
           alert("Invalid credentials, please try again");
         }
         localStorage.clear();
-        localStorage.setItem("user-token", token);
+        localStorage.setItem("token", token);
       })
       .catch((error) => {
-        console.log("Authentication error: " + error);
+        console.log("Authentication error: ", error);
         alert("An error occurred. Please try again later.");
       });
   }
