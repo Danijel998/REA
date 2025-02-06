@@ -32,7 +32,7 @@ public class RealEstateAgencyController {
     @GetMapping("/agencyList")
     public ResponseEntity<List<RealEstateAgency>> getAllRealEstateAgency(){
         List<RealEstateAgency> realEstates = realEstateAgencyService.getRealEstateAgency();
-        return new ResponseEntity<>(realEstates, HttpStatus.FOUND);
+        return new ResponseEntity<>(realEstates, HttpStatus.OK);
     }
 
     //UPDATE
