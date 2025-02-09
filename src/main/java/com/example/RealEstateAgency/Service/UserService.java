@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @NoArgsConstructor
@@ -19,9 +20,9 @@ public class UserService {
     //CREATE
     public UserRegistration createUser(UserRegistration userRegistration){
         String username = userRegistration.getUsername();
-        if(userRegistrationRepository.findByUsername(username) != null){
-             throw new RuntimeException("Username already exist");
-
+        Optional<UserRegistration> existUser = userRegistrationRepository.findByUsername(username);
+        if(existUser.isPresent()){
+             throw new RuntimeException("User with username: "+username+" already exist");
         }
         return userRegistrationRepository.save(userRegistration);
     }
@@ -32,7 +33,7 @@ public class UserService {
     }
 
     //READ USER
-    public UserRegistration getUser(String username){
+    public Optional<UserRegistration> getUser(String username){
         return userRegistrationRepository.findByUsername(username);
     }
 

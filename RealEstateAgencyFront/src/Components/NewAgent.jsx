@@ -3,7 +3,6 @@ import * as React from "react";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import Box from "@mui/material/Box";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
@@ -52,7 +51,6 @@ function NewAgent() {
       realEstateAgencyIdentificationNumber: agencyVAT,
     };
 
-    console.log("AGENCY VAT: ", agencyVAT);
     if (password == confirmPassword) {
       axios.post("http://localhost:8080/api/user/createAgent", body, {
         headers: {

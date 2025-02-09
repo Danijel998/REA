@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.antlr.v4.runtime.misc.NotNull;
 
 
 @Setter
@@ -18,7 +19,7 @@ public class RealEstateAgency {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long agencyID;
-    @Column(name = "AGN_VAT_NUMBER" ,length = 12)
+    @Column(name = "AGN_VAT_NUMBER" ,length = 12, unique = true, nullable = false)
     private Long agencyIdentificationNumber;
     @Column(name = "AGN_NAME")
     private String agencyName;
