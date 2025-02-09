@@ -25,7 +25,7 @@ public class RealEstateAgencyController {
     @PostMapping("/createAgency")
     public ResponseEntity<RealEstateAgency> createRealEstate(@RequestBody RealEstateAgency realEstateAgency){
         RealEstateAgency savedRealEstate = realEstateAgencyService.saveRealEstateAgency(realEstateAgency);
-        return new ResponseEntity<>(savedRealEstate, HttpStatus.CREATED);
+        return new ResponseEntity<>(savedRealEstate, HttpStatus.OK);
     }
 
     //READ
