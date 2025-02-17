@@ -41,7 +41,8 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests((request) -> request
                         .requestMatchers("/api/auth/authenticate").permitAll()
-                        .requestMatchers("/api/user/agentList", "/api/user/agent/{username}"
+                        .requestMatchers("/api/user/agentList", "/api/user/agent/{username}",
+                                "/api/advertisement/create"
                         ).hasAnyRole("USER", "ADMIN", "SUPER_ADMIN")
                         .requestMatchers("/api/admin/**",
                                 "/api/user/**").hasAnyRole("ADMIN", "SUPER_ADMIN")
