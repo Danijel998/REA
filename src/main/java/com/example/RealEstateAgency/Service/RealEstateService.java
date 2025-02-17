@@ -1,7 +1,9 @@
 package com.example.RealEstateAgency.Service;
 
 
+import com.example.RealEstateAgency.DTO.RealEstateDTO;
 import com.example.RealEstateAgency.Entity.RealEstate;
+import com.example.RealEstateAgency.Mapper.RealEstateMapper;
 import com.example.RealEstateAgency.Repository.RealEstateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,8 +17,9 @@ public class RealEstateService {
     RealEstateRepository realEstateRepository;
 
     //CREATE
-    public RealEstate saveRealEstate(RealEstate realEstate){
-        return realEstateRepository.save(realEstate);
+    public RealEstate saveRealEstate(RealEstateDTO realEstateDTO){
+        RealEstateMapper mapper =  new RealEstateMapper();
+        return realEstateRepository.save(mapper.mapRealEstateDTOToRealEstate(realEstateDTO));
     }
 
     //READ ALL
@@ -58,12 +61,12 @@ public class RealEstateService {
             estate.setRealEstatePicture(realEstate.getRealEstatePicture());
         }
 
-        if(realEstate.getRealEstateAgent() != null && !estate.getRealEstateAgent().equals(realEstate.getRealEstateAgent())){
-            estate.setRealEstateAgent(realEstate.getRealEstateAgent());
+        if(realEstate.getUserId() != null && !estate.getUserId().equals(realEstate.getUserId())){
+            estate.setUserId(realEstate.getUserId());
         }
 
-        if(realEstate.getRealEstateAgency() != null && !estate.getRealEstateAgency().equals(realEstate.getRealEstateAgency())){
-            estate.setRealEstateAgency(realEstate.getRealEstateAgency());
+        if(realEstate.getAgencyID() != null && !estate.getAgencyID().equals(realEstate.getAgencyID())){
+            estate.setAgencyID(realEstate.getAgencyID());
         }
 
         return realEstateRepository.save(estate);

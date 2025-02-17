@@ -11,14 +11,14 @@ public class RealEstateMapper {
     public RealEstateDTO mapRealEstateToRealEstateDTO(RealEstate realEstate){
         RealEstateDTO realEstateDTO = new RealEstateDTO();
 
-        realEstateDTO.setRealEstateName
+        realEstateDTO.setRealEstateNameDTO(realEstate.getRealEstateName());
         realEstateDTO.setRealEstateTypeDTO(realEstate.getRealEstateType());
         realEstateDTO.setRealEstateYearDTO(realEstate.getRealEstateYear());
         realEstateDTO.setRealEstateStatusDTO(realEstate.getRealEstateStatus());
         realEstateDTO.setRealEstateDescriptionDTO(realEstate.getRealEstateDescription());
         realEstateDTO.setRealEstatePictureDTO(realEstate.getRealEstatePicture());
-        realEstateDTO.setRealEstateAgentDTO(realEstate.getRealEstateAgent());
-        realEstateDTO.setRealEstateAgencyDTO(realEstate.getRealEstateAgency());
+        realEstateDTO.setUserIdDTO(realEstate.getUserId());
+        realEstateDTO.setAgencyIdDTO(realEstate.getAgencyID());
 
         return realEstateDTO;
     }
@@ -33,8 +33,8 @@ public class RealEstateMapper {
         realEstate.setRealEstateStatus(realEstateDTO.getRealEstateStatusDTO());
         realEstate.setRealEstateDescription(realEstateDTO.getRealEstateDescriptionDTO());
         realEstate.setRealEstatePicture(realEstateDTO.getRealEstatePictureDTO());
-        realEstate.setRealEstateAgent(realEstateDTO.getRealEstateAgentDTO());
-        realEstate.setRealEstateAgency(realEstateDTO.getRealEstateAgencyDTO());
+        realEstate.setUserId(realEstateDTO.getUserIdDTO());
+        realEstate.setAgencyID(realEstateDTO.getAgencyIdDTO());
 
         return realEstate;
     }

@@ -10,24 +10,24 @@ public class UserMapper {
     public UserDTO mapUsertoUserDto(UserRegistration userRegistration){
         UserDTO userDto = new UserDTO();
 
-        userDto.setFirstName(userRegistration.getFirstName());
-        userDto.setLastName(userRegistration.getLastName());
-        userDto.setUsername(userRegistration.getUsername());
-        userDto.setEmail(userRegistration.getEmail());
-        userDto.setPassword(userRegistration.getPassword());
-        userDto.setRealEstateAgencyIdentificationNumber(userRegistration.getRealEstateAgencyIdentificationNumber());
+        userDto.setFirstNameDTO(userRegistration.getFirstName());
+        userDto.setLastNameDTO(userRegistration.getLastName());
+        userDto.setUsernameDTO(userRegistration.getUsername());
+        userDto.setEmailDTO(userRegistration.getEmail());
+        userDto.setPasswordDTO(userRegistration.getPassword());
+        userDto.setRealEstateAgencyIdentificationNumberDTO(userRegistration.getRealEstateAgencyIdentificationNumber());
         return userDto;
     }
 
     public UserRegistration mapUserDTOtoUser(UserDTO userDTO){
         UserRegistration userRegistration = new UserRegistration();
 
-        userRegistration.setFirstName(userDTO.getFirstName());
-        userRegistration.setLastName(userDTO.getLastName());
-        userRegistration.setUsername(userDTO.getUsername());
-        userRegistration.setEmail(userDTO.getEmail());
-        userRegistration.setPassword(userDTO.getPassword());
-        userRegistration.setRealEstateAgencyIdentificationNumber(userDTO.getRealEstateAgencyIdentificationNumber());
+        userRegistration.setFirstName(userDTO.getFirstNameDTO());
+        userRegistration.setLastName(userDTO.getLastNameDTO());
+        userRegistration.setUsername(userDTO.getUsernameDTO());
+        userRegistration.setEmail(userDTO.getEmailDTO());
+        userRegistration.setPassword(userDTO.getPasswordDTO());
+        userRegistration.setRealEstateAgencyIdentificationNumber(userDTO.getRealEstateAgencyIdentificationNumberDTO());
         return userRegistration;
     }
 

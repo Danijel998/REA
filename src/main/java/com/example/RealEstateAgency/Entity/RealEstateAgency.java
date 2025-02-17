@@ -18,6 +18,7 @@ public class RealEstateAgency {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "AGENCY_ID")
     private Long agencyID;
     @Column(name = "AGN_VAT_NUMBER" ,length = 12, unique = true, nullable = false)
     private Long agencyIdentificationNumber;

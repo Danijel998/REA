@@ -13,7 +13,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table
 public class RealEstate {
 
     @Id
@@ -33,14 +32,12 @@ public class RealEstate {
     @Column(name = "RE_PICTURE")
     private String realEstatePicture;
 
-   // @Column(name = "RE_AGENT")
     @ManyToOne
-    @JoinColumn(name = "AGENT_USERNAME" ,referencedColumnName = "USERNAME")
-    private UserRegistration realEstateAgent;
+    @JoinColumn(name = "userId" ,referencedColumnName = "USER_ID")
+    private UserRegistration userId;
 
-    //@Column(name = "AGN_VAT_NUMBER")
     @ManyToOne
-    @JoinColumn(name = "AGENCY_VAT", referencedColumnName = "AGN_VAT_NUMBER")
-    private RealEstateAgency realEstateAgency;
+    @JoinColumn(name = "agencyID", referencedColumnName = "AGENCY_ID")
+    private RealEstateAgency agencyID;
 
 }

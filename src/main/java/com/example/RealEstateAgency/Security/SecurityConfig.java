@@ -41,13 +41,19 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests((request) -> request
                         .requestMatchers("/api/auth/authenticate").permitAll()
-                        .requestMatchers("/api/user/agentList", "/api/user/agent/{username}",
-                                "/api/advertisement/create"
+                        .requestMatchers(
+                                "/api/user/agentList",
+                                "/api/user/agent/{username}",
+                                "/api/realEstate/**"
                         ).hasAnyRole("USER", "ADMIN", "SUPER_ADMIN")
-                        .requestMatchers("/api/admin/**",
-                                "/api/user/**").hasAnyRole("ADMIN", "SUPER_ADMIN")
-                        .requestMatchers("/api/realEstateAgency/**",
-                                "/api/super_admin/**").hasRole("SUPER_ADMIN").anyRequest().authenticated())
+                        .requestMatchers(
+                                "/api/admin/**",
+                                "/api/user/**"
+                        ).hasAnyRole("ADMIN", "SUPER_ADMIN")
+                        .requestMatchers(
+                                "/api/realEstateAgency/**",
+                                "/api/super_admin/**"
+                        ).hasRole("SUPER_ADMIN").anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))

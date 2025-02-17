@@ -36,7 +36,7 @@ public class RealEstateAgencyController {
     }
 
     //UPDATE
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<RealEstateAgency> updateRealEstateAgency(@PathVariable("id") Long agencyID,
                                                              @RequestBody RealEstateAgency realEstateAgency){
     realEstateAgency.setAgencyID(agencyID);
@@ -45,7 +45,7 @@ public class RealEstateAgencyController {
     }
 
     //DELETE
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteRealEstateAgency(@PathVariable("id") Long id){
         realEstateAgencyService.deleteUser(id);
         return new ResponseEntity<>("Real Estate successfully deleted", HttpStatus.OK);

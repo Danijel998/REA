@@ -7,9 +7,11 @@ import lombok.*;
 
 import java.time.LocalDate;
 
+@Data
 @Getter
 @Setter
-@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class RealEstateDTO {
 
     private String realEstateNameDTO;
@@ -18,7 +20,7 @@ public class RealEstateDTO {
     private RealEstateStatus realEstateStatusDTO;
     private String realEstateDescriptionDTO;
     private String realEstatePictureDTO;
-    private UserRegistration realEstateAgentDTO;
-    private RealEstateAgency realEstateAgencyDTO;
+    private UserRegistration userIdDTO;
+    private RealEstateAgency agencyIdDTO;
 
 }

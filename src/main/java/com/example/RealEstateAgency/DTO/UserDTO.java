@@ -8,13 +8,13 @@ import lombok.*;
 @Data
 public class UserDTO {
 
-    private Long userId;
-    private String firstName;
-    private String lastName;
-    private String username;
-    private String email;
-    private String password;
-    private Long realEstateAgencyIdentificationNumber;
+    private Long userIdDTO;
+    private String firstNameDTO;
+    private String lastNameDTO;
+    private String usernameDTO;
+    private String emailDTO;
+    private String passwordDTO;
+    private Long realEstateAgencyIdentificationNumberDTO;
 
 
 }
