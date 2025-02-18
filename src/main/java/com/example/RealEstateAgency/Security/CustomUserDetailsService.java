@@ -3,8 +3,8 @@ package com.example.RealEstateAgency.Security;
 import com.example.RealEstateAgency.Entity.UserRegistration;
 import com.example.RealEstateAgency.Repository.UserRegistrationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,15 +30,16 @@ public class CustomUserDetailsService implements UserDetailsService {
         return new User(
                 u.getUsername(),
                 u.getPassword(),
-                Collections.singletonList(new SimpleGrantedAuthority(u.getRole()))
+                getAuthorities(u)
+                //Collections.singletonList(new SimpleGrantedAuthority(u.getRole()))
         );
 
     }
 
-/*
-    private Collection<GrantedAuthority> mapRolesToAuthorities(Role role) {
-        return List.of(new SimpleGrantedAuthority(role.getRoleName()));
-    }*/
+
+    private Collection<? extends  GrantedAuthority> getAuthorities(UserRegistration user) {
+        return AuthorityUtils.createAuthorityList("ROLE_"+user.getRole().toString());
+    }
 
    /* private Collection<GrantedAuthority> mapRolesToAuthorities(List<Role> roles) {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getRoleName())).collect(Collectors.toList());

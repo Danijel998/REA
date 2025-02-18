@@ -8,73 +8,99 @@ import com.example.RealEstateAgency.Repository.RealEstateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RealEstateService {
 
     @Autowired
     RealEstateRepository realEstateRepository;
+    @Autowired
+    RealEstateMapper realEstateMapper;
 
     //CREATE
-    public RealEstate saveRealEstate(RealEstateDTO realEstateDTO){
-        RealEstateMapper mapper =  new RealEstateMapper();
-        return realEstateRepository.save(mapper.mapRealEstateDTOToRealEstate(realEstateDTO));
+    public RealEstateDTO saveRealEstate(RealEstateDTO realEstateDTO) {
+        RealEstateMapper mapper = new RealEstateMapper();
+        RealEstate realEstate = realEstateMapper.mapRealEstateDTOToRealEstate(realEstateDTO);
+         realEstateRepository.save(realEstate);
+        return mapper.mapRealEstateToRealEstateDTO(realEstate);
     }
 
     //READ ALL
-    public List<RealEstate> getAllRealEstates(){
-        return realEstateRepository.findAll();
+    public List<RealEstateDTO> getAllRealEstates() {
+        RealEstateMapper mapper = new RealEstateMapper();
+        List<RealEstate> realEstate = realEstateRepository.findAll();
+        return realEstate.stream()
+                .map(mapper::mapRealEstateToRealEstateDTO)
+                .collect(Collectors.toList());
     }
 
     //READ
-    public RealEstate getRealEstate(String realEstateName){
-        return realEstateRepository.findByRealEstateName(realEstateName);
+    public RealEstateDTO getRealEstate(String realEstateName) {
+        RealEstateMapper mapper = new RealEstateMapper();
+        RealEstate realEstate = realEstateRepository.findByRealEstateName(realEstateName)
+                .orElseThrow(() -> new RuntimeException("Real estate with name" + realEstateName + "doesnt exist"));
+        return mapper.mapRealEstateToRealEstateDTO(realEstate);
     }
 
     //UPDATE
-    public RealEstate updateRealEstate(RealEstate realEstate){
-        RealEstate estate = realEstateRepository.findById(realEstate.getRealEstateID()).get();
+    public RealEstateDTO updateRealEstate(Long id, RealEstateDTO realEstateDTO) {
+        RealEstateMapper mapper = new RealEstateMapper();
+        RealEstate realEstate = (realEstateRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Real estate with id: " + id + "doesnt exist,")));
 
-        if(realEstate.getRealEstateName() != null && !estate.getRealEstateName()
-                .equals(realEstate.getRealEstateName())){
-            estate.setRealEstateName(realEstate.getRealEstateName());
+        if (realEstateDTO.getRealEstateNameDTO() != null && !realEstateDTO.getRealEstateNameDTO()
+                .equals(realEstate.getRealEstateName())) {
+            realEstate.setRealEstateName(realEstateDTO.getRealEstateNameDTO());
         }
 
-        if(realEstate.getRealEstateType() != null && !estate.getRealEstateType().equals(realEstate.getRealEstateType())){
-            estate.setRealEstateType(realEstate.getRealEstateType());
+        if (realEstateDTO.getRealEstateTypeDTO() != null && !realEstateDTO.getRealEstateTypeDTO()
+                .equals(realEstate.getRealEstateType())) {
+            realEstate.setRealEstateType(realEstateDTO.getRealEstateTypeDTO());
         }
 
-        if(realEstate.getRealEstateYear() != null && !estate.getRealEstateYear().equals(realEstate.getRealEstateYear())){
-            estate.setRealEstateYear(realEstate.getRealEstateYear());
+        if (realEstateDTO.getRealEstateYearDTO() != null && !realEstateDTO.getRealEstateYearDTO()
+                .equals(realEstate.getRealEstateYear())) {
+            realEstate.setRealEstateYear(realEstate.getRealEstateYear());
         }
 
-        if(realEstate.getRealEstateStatus() != null && !estate.getRealEstateStatus().equals(realEstate.getRealEstateStatus())){
-            estate.setRealEstateStatus(realEstate.getRealEstateStatus());
+        if (realEstateDTO.getRealEstateStatusDTO() != null && !realEstateDTO.getRealEstateStatusDTO()
+                .equals(realEstate.getRealEstateStatus())) {
+            realEstate.setRealEstateStatus(realEstate.getRealEstateStatus());
         }
 
-        if(realEstate.getRealEstateDescription() != null && !estate.getRealEstateDescription().equals(realEstate.getRealEstateDescription())){
-            estate.setRealEstateDescription(realEstate.getRealEstateDescription());
+        if (realEstateDTO.getRealEstateDescriptionDTO() != null && !realEstateDTO.getRealEstateDescriptionDTO()
+                .equals(realEstate.getRealEstateDescription())) {
+            realEstate.setRealEstateDescription(realEstate.getRealEstateDescription());
         }
 
-        if(realEstate.getRealEstatePicture() != null && !estate.getRealEstatePicture().equals(realEstate.getRealEstatePicture())){
-            estate.setRealEstatePicture(realEstate.getRealEstatePicture());
+        if (realEstateDTO.getRealEstatePictureDTO() != null && !realEstateDTO.getRealEstatePictureDTO()
+                .equals(realEstate.getRealEstatePicture())) {
+            realEstate.setRealEstatePicture(realEstate.getRealEstatePicture());
         }
 
-        if(realEstate.getUserId() != null && !estate.getUserId().equals(realEstate.getUserId())){
-            estate.setUserId(realEstate.getUserId());
+        if (realEstateDTO.getUserIdDTO() != null && !realEstateDTO.getUserIdDTO()
+                .equals(realEstate.getUserId())) {
+            realEstate.setUserId(realEstate.getUserId());
         }
 
-        if(realEstate.getAgencyID() != null && !estate.getAgencyID().equals(realEstate.getAgencyID())){
-            estate.setAgencyID(realEstate.getAgencyID());
+        if (realEstateDTO.getAgencyIdDTO() != null && !realEstateDTO.getAgencyIdDTO()
+                .equals(realEstate.getAgencyID())) {
+            realEstate.setAgencyID(realEstate.getAgencyID());
         }
 
-        return realEstateRepository.save(estate);
+        RealEstate updateRealEstate = realEstateRepository.save(realEstate);
+        return mapper.mapRealEstateToRealEstateDTO(updateRealEstate);
     }
 
     //DELETE
-    public void deleteRealEstate(Long realEstateID){
-        realEstateRepository.deleteById(realEstateID);
+    public void deleteRealEstate(Long realEstateID) {
+        RealEstate deleteRealEstate = realEstateRepository.findById(realEstateID)
+                .orElseThrow(() -> new RuntimeException("Real estate with id: " + realEstateID + "doesn't exist."));
+        realEstateRepository.delete(deleteRealEstate);
+        ;
     }
 
 }

@@ -20,7 +20,7 @@ public class RealEstateDTO {
     private RealEstateStatus realEstateStatusDTO;
     private String realEstateDescriptionDTO;
     private String realEstatePictureDTO;
-    private UserRegistration userIdDTO;
-    private RealEstateAgency agencyIdDTO;
+    private Long userIdDTO;
+    private Long agencyIdDTO;
 
 }

@@ -30,19 +30,22 @@ public class JWTRequestFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
         final String authHeader = request.getHeader("Authorization");
-        logger.info("Authorization Header: " + authHeader);  // Loguj Authorization header
+        logger.info("Authorization Header: " + authHeader);
 
         String username = null;
         String jwt = null;
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             jwt = authHeader.substring("Bearer ".length());
-            logger.info("Extracted JWT: " + jwt);  // Loguj izvučeni JWT token
-            try {
+            logger.info("Extracted JWT: " + jwt);
+           try {
                 username = jwtUtil.extractUsername(jwt);
-            } catch (Exception e) {
+          } catch (Exception e) {
                 logger.error("Error extracting username from token: " + e.getMessage());
             }
+/*            response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
+            return;*/
         }
+
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             try {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -52,9 +55,11 @@ public class JWTRequestFilter extends OncePerRequestFilter {
                     usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                 }
-            } catch (UsernameNotFoundException e) {
+            }catch (UsernameNotFoundException e) {
                 logger.error("User not found" + username);
             }
+/*            response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
+            return;*/
         }
         filterChain.doFilter(request, response);
     }

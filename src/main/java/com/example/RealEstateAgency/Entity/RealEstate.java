@@ -37,7 +37,7 @@ public class RealEstate {
     private UserRegistration userId;
 
     @ManyToOne
-    @JoinColumn(name = "agencyID", referencedColumnName = "AGENCY_ID")
+    @JoinColumn(name = "agencyID", referencedColumnName = "agencyID")
     private RealEstateAgency agencyID;
 
 }
